@@ -8,11 +8,17 @@ function Child() {
 
     const handleAddition=(event)=>{
         event.preventDefault();
+        if(Number(newAmount)===0){
+            alert("Please Enter Correct Value")
+            return false;
+        }
         
         addTransaction({
             amount:Number(newAmount),
             desc:newDesc
-        })
+        });
+        setDesc('');
+        setAmount(0);
     }
     const getIncome= ()=> {
         let income =0;
@@ -36,11 +42,11 @@ function Child() {
         <div className="container">
             <h1 className="text-centre">Expense Tracker</h1>
 
-    <h3>Your Balance <br />{getIncome() + getExpense()}</h3>
+    <h3>Your Balance <br />${getIncome() + getExpense()}</h3>
 
             <div className="expense-container">
-                <h3>INCOME <br />{getIncome()} </h3>
-                <h3>EXPENSE<br />{getExpense()} </h3>
+                <h3>INCOME <br />${getIncome()} </h3>
+                <h3>EXPENSE<br />${getExpense()} </h3>
             </div>
 
             <h3>History</h3>
@@ -50,7 +56,7 @@ function Child() {
                     return (
                         <li key={ind}>
                             <span>{transObj.desc}</span>
-                            <span>{transObj.amount}</span>
+                            <span>${transObj.amount}</span>
 
                         </li>)
                 })}
@@ -62,12 +68,18 @@ function Child() {
             <form className="transaction-form" onSubmit={handleAddition}>
                 <label>
                     Enter Description <br />
-                    <input type="text" onChange={(ev)=>setDesc(ev.target.value)} required />
+                    <input type="text"
+                    value={newDesc}
+                    onChange={(ev)=>setDesc(ev.target.value)}
+                     required placeholder="Description" />
                 </label>
                 <br />
                 <label>
                     Enter Amount <br />
-                    <input type="number" onChange={(ev)=>setAmount(ev.target.value)} required />
+                    <input type="number"
+                    value={newAmount}
+                    onChange={(ev)=>setAmount(ev.target.value)} 
+                    required placeholder="Amount" />
                     <br />
                     <input type="submit" value="Add Transaction" />
                 </label>
